@@ -12,15 +12,39 @@ import (
 	"encoding/json"
 	"net/http"
 	"path"
+	"strings"
 )
 
+//____________________________authors
+var authors = []Author{
+	Author{AuthorId:"Author1",Name: "Allen",Nationality: "Costarricense",Birth: "2020-08-28",Genere: "M",
+		BookArray:[]Book{
+				Book{BookId: "Book1", Title: "Operating System Concepts", Edition: "9th",
+					Copyright: "2012", Language: "ENGLISH", Pages: "976",
+					PublisherArray:[]Publisher{Publisher{PublisherId:"Publisher1",Name:"Roberto Siluosa",Country:"Francia",Founded:"1999",Genere:"M"}}},
+				Book{BookId: "Book2", Title: "Computer Networks", Edition: "5th",
+					Copyright: "2010", Language: "ENGLISH", Pages: "960",
+					PublisherArray:[]Publisher{Publisher{PublisherId:"Publisher2",Name:"Allen Fabioni",Country:"Italia",Founded:"2009",Genere:"M"},
+																		 Publisher{PublisherId:"Publisher3",Name:"Juanito",Country:"Italia",Founded:"10",Genere:"M"}}},
+		}},
+}
+
+//____________________________publishers
+var publishers = []Publisher{
+	Publisher{PublisherId:"Publisher1",Name:"Roberto Siluosa",Country:"Francia",Founded:"1999",Genere:"M"},
+	Publisher{PublisherId:"Publisher2",Name:"Allen Fabioni",Country:"Italia",Founded:"2009",Genere:"M"},
+	Publisher{PublisherId:"Publisher3",Name:"Juanito",Country:"Italia",Founded:"10",Genere:"M"},
+}
+
+//____________________________books
 var books = []Book{
 	Book{BookId: "Book1", Title: "Operating System Concepts", Edition: "9th",
 		Copyright: "2012", Language: "ENGLISH", Pages: "976",
-		Author: "Abraham Silberschatz", Publisher: "John Wiley & Sons"},
-	Book{BookId: "Book3", Title: "Computer Networks", Edition: "5th",
+		PublisherArray:[]Publisher{Publisher{PublisherId:"Publisher1",Name:"Roberto Siluosa",Country:"Francia",Founded:"1999",Genere:"M"}}},
+	Book{BookId: "Book2", Title: "Computer Networks", Edition: "5th",
 		Copyright: "2010", Language: "ENGLISH", Pages: "960",
-		Author: "Andrew S. Tanenbaum", Publisher: "Andrew S. Tanenbaum"},
+		PublisherArray:[]Publisher{Publisher{PublisherId:"Publisher2",Name:"Allen Fabioni",Country:"Italia",Founded:"2009",Genere:"M"},
+		                           Publisher{PublisherId:"Publisher3",Name:"Juanito",Country:"Italia",Founded:"10",Genere:"M"}}},
 }
 
 func find(x string) int {
@@ -31,8 +55,187 @@ func find(x string) int {
 	}
 	return -1
 }
+func findAuthor(x string) int {
+	for i, author := range authors {
+		if x == author.AuthorId {
+			return i
+		}
+	}
+	return -1
+}
+func findPublisher(x string) int {
+	for i, publisher := range publishers {
+		if x == publisher.PublisherId {
+			return i
+		}
+	}
+	return -1
+}
+
+
+func AuthorsAuthorIdBooksGet(w http.ResponseWriter, r *http.Request) { // Get all books from atuhors
+	id := strings.Replace(strings.TrimPrefix(r.URL.Path, "/authors/"),"/books","",1)
+	for _, author := range authors { // loop over authors to find books to return
+		if id == author.AuthorId {
+			bookArray := author.BookArray
+			dataJson, _ := json.Marshal(&bookArray)
+			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+			w.Write(dataJson)
+			w.WriteHeader(http.StatusOK)
+		}
+	}
+}
+
+func BooksBookIdPublishersGet(w http.ResponseWriter, r *http.Request) { // Get all publishers from a book
+	id := strings.Replace(strings.TrimPrefix(r.URL.Path, "/books/"),"/publishers","",1)
+	for _, book := range books { // loop over authors to find books to return
+		if id == book.BookId {
+			dataJson, _ := json.Marshal(&book.PublisherArray)
+			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+			w.Write(dataJson)
+			w.WriteHeader(http.StatusOK)
+		}
+	}
+}
+
+func PublishersPublisherIdBooksGet(w http.ResponseWriter, r *http.Request) { // Get all books from publisher
+	id := strings.Replace(strings.TrimPrefix(r.URL.Path, "/publishers/"),"/books","",1)
+	for _, book := range books {
+		for _, publisher := range book.PublisherArray {
+			if(publisher.PublisherId == id){
+				dataJson, _ := json.Marshal(&book)
+				w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+				w.Write(dataJson)
+				w.WriteHeader(http.StatusOK)
+			}
+		}
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+}
+
+func BooksBookIdAuthorsGet(w http.ResponseWriter, r *http.Request) { // Get all authors from books
+	id := strings.Replace(strings.TrimPrefix(r.URL.Path, "/books/"),"/authors","",1)
+	for _, author := range authors { // loop over authors to find books to return
+		for _, book := range author.BookArray {
+			if id == book.BookId {
+				dataJson, _ := json.Marshal(&author)
+				w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+				w.Write(dataJson)
+				w.WriteHeader(http.StatusOK)
+			}
+		}
+	}
+}
+
+
+func AuthorsAuthorIdDelete(w http.ResponseWriter, r *http.Request) {
+	id := path.Base(r.URL.Path)
+	for i, author := range authors { // loop over authors to find AuthordId to delete
+		if id == author.AuthorId {
+			bookArray := author.BookArray
+			for _,book := range bookArray {
+					for _,publisher := range book.PublisherArray { // we have to delete publishers then by referencial integrity(simulation)
+						indexPublisher := findPublisher(publisher.PublisherId)
+						newListPublishers := append(publishers[:indexPublisher], publishers[indexPublisher+1:]...)
+						publishers = newListPublishers
+					}
+					indexBook := find(book.BookId) // we have to delete books then by referencial integrity(simulation)
+					newListBooks := append(books[:indexBook], books[indexBook+1:]...)
+					books = newListBooks
+			}
+			newListAuthors := append(authors[:i], authors[i+1:]...)
+			authors = newListAuthors
+		}
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+}
+
+func AuthorsAuthorIdGet(w http.ResponseWriter, r *http.Request) {
+	id := path.Base(r.URL.Path)
+	i := findAuthor(id)
+	if i == -1 {
+		return
+	}
+	dataJson, _ := json.Marshal(authors[i])
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
+}
+
+func AuthorsAuthorIdPut(w http.ResponseWriter, r *http.Request) {
+	id := path.Base(r.URL.Path)
+	for i, authorToModify := range authors {
+			if id == authorToModify.AuthorId {
+				err := json.NewDecoder(r.Body).Decode(&authorToModify)
+				if err != nil{
+					http.Error(w, err.Error(), http.StatusBadRequest)
+					return
+				}
+				bookArray := authorToModify.BookArray
+				for _,bookParam := range bookArray {
+						for _,publisherParam := range bookParam.PublisherArray {
+							for k,publisherActual := range publishers { // we have to delete publishers then by referencial integrity(simulation)
+								if publisherParam.PublisherId == publisherActual.PublisherId{
+									publishers[k] = publisherParam
+								}
+							}
+							for j,bookActual := range books { // we have to delete books then by referencial integrity(simulation)
+								if bookParam.BookId == bookActual.BookId{
+									books[j] = bookParam
+								}
+							}
+						}
+				}
+				authors[i] = authorToModify
+			}
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+}
+
+func AuthorsPost(w http.ResponseWriter, r *http.Request) {
+	var author Author
+	err := json.NewDecoder(r.Body).Decode(&author)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	bookArray := author.BookArray
+	for _,book := range bookArray {
+			for _,publisher := range book.PublisherArray {
+				publishers = append(publishers, publisher) // ingreso de las editoriales por llave foranea (simulación)
+			}
+			books = append(books, book) // ingreso de los libros por llave foranea (simulación)
+	}
+	authors = append(authors, author)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+}
 
 func BooksBookIdDelete(w http.ResponseWriter, r *http.Request) {
+	id := path.Base(r.URL.Path)
+	for _, book := range books { // loop over authors to find AuthordId to delete
+		if id == book.BookId {
+			for _,publisher := range book.PublisherArray { // we have to delete publishers then by referencial integrity(simulation)
+				indexPublisher := findPublisher(publisher.PublisherId)
+				newListPublishers := append(publishers[:indexPublisher], publishers[indexPublisher+1:]...)
+				publishers = newListPublishers
+			}
+			indexBook := find(book.BookId) // we have to delete books then by referencial integrity(simulation)
+			newListBooks := append(books[:indexBook], books[indexBook+1:]...)
+			books = newListBooks
+		}
+	}
+	for i, author := range authors { // loop to find theirs referential integrity (simulation) Authors
+		for j, book := range author.BookArray {
+			if book.BookId == id {
+				author.BookArray = append(author.BookArray[:j],author.BookArray[j+1:]...)
+				authors[i].BookArray = author.BookArray
+			}
+		}
+	}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 }
@@ -50,6 +253,32 @@ func BooksBookIdGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func BooksBookIdPut(w http.ResponseWriter, r *http.Request) {
+	id := path.Base(r.URL.Path)
+	for i, bookToModify := range books {// loop over books to modify
+			if id == bookToModify.BookId {
+				err := json.NewDecoder(r.Body).Decode(&bookToModify)
+				if err != nil{
+					http.Error(w, err.Error(), http.StatusBadRequest)
+					return
+				}
+				publisherArray := bookToModify.PublisherArray
+				for _,publisherParam := range publisherArray { // we have to delete publishers then by referencial integrity(simulation)
+					for k,publisherActual := range publishers {
+						if publisherParam.PublisherId == publisherActual.PublisherId{
+							publishers[k] = publisherParam
+						}
+					}
+				}
+				books[i] = bookToModify
+				for _, author := range authors { // loop to find theirs referential integrity (simulation) Authors
+					for g, book := range author.BookArray {
+						if id == book.BookId{
+							author.BookArray [g] = bookToModify
+						}
+					}
+				}
+			}
+	}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 }
@@ -61,7 +290,96 @@ func BooksPost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	publisherArray := book.PublisherArray
+	for _,publisher := range publisherArray {
+		publishers = append(publishers, publisher) // The editor is added by referential integrity (simulation)
+	}
 	books = append(books, book)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+}
+
+func PublishersPost(w http.ResponseWriter, r *http.Request) {
+	var publisher Publisher
+	err := json.NewDecoder(r.Body).Decode(&publisher)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	publishers = append(publishers, publisher)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+}
+
+func PublishersPublisherIdDelete(w http.ResponseWriter, r *http.Request) {
+	id := path.Base(r.URL.Path)
+	indexPublisher := findPublisher(id)
+	newListPublishers := append(publishers[:indexPublisher], publishers[indexPublisher+1:]...)
+	publishers = newListPublishers
+	for j, book := range books { // loop to find theirs referential integrity (simulation) Books
+			for i, publisher := range book.PublisherArray {
+				if id == publisher.PublisherId {
+					book.PublisherArray = append(book.PublisherArray[:i], book.PublisherArray[i+1:]...)
+					books[j].PublisherArray = book.PublisherArray
+					break
+				}
+			}
+		}
+	for i, author := range authors { // loop to find theirs referential integrity (simulation) Authors
+		for j, book := range author.BookArray {
+			for k, publisher := range book.PublisherArray {
+				if id == publisher.PublisherId {
+					book.PublisherArray = append(book.PublisherArray[:k], book.PublisherArray[k+1:]...)
+					authors[i].BookArray[j].PublisherArray = book.PublisherArray
+					break
+				}
+			}
+		}
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+}
+
+func PublishersPublisherIdGet(w http.ResponseWriter, r *http.Request) {
+	id := path.Base(r.URL.Path)
+	i := findPublisher(id)
+	if i == -1 {
+		return
+	}
+	dataJson, _ := json.Marshal(publishers[i])
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
+}
+
+func PublishersPublisherIdPut(w http.ResponseWriter, r *http.Request) {
+	id := path.Base(r.URL.Path)
+	for i, publisherToModify := range publishers {
+			if id == publisherToModify.PublisherId {
+				err := json.NewDecoder(r.Body).Decode(&publisherToModify)
+				if err != nil{
+					http.Error(w, err.Error(), http.StatusBadRequest)
+					return
+				}
+				publishers[i] = publisherToModify // update publishers array
+				for _, author := range authors { // loop to find theirs referential integrity (simulation) Authors
+					for _, book := range author.BookArray {
+						for i, publisher := range book.PublisherArray {
+							if publisherToModify.PublisherId == publisher.PublisherId {
+								book.PublisherArray[i] = publisherToModify
+							}
+						}
+					}
+				}
+				for _, book := range books { // loop to find theirs referential integrity (simulation) Books
+						for i, publisher := range book.PublisherArray {
+							if publisherToModify.PublisherId == publisher.PublisherId {
+								book.PublisherArray[i] = publisherToModify
+							}
+						}
+					}
+			}
+		}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 }

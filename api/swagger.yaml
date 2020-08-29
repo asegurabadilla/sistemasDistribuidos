@@ -7,6 +7,42 @@ servers:
 - url: http://webservice_booksapps.netlify.org
   description: web service published on netlify
 paths:
+  /books/{bookId}/authors:
+        get:
+          summary: Returns authors by book.
+          parameters:
+          - name: bookId
+            in: path
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+          responses:
+            "200":
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/Author'
+  /books/{bookId}/publishers:
+      get:
+        summary: Returns all publishers from a book.
+        parameters:
+        - name: bookId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Publisher'
   /books/{bookId}:
     get:
       summary: Returns a book by ID.
@@ -71,8 +107,191 @@ paths:
       responses:
         "200":
           description: OK
+  /authors/{authorId}/books:
+    get:
+      summary: Returns all books from an author.
+      parameters:
+      - name: authorId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+  /authors/{authorId}:
+    get:
+      summary: Returns an author by ID.
+      parameters:
+      - name: authorId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+    put:
+      summary: Update author information
+      parameters:
+      - name: authorId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: author data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+        required: true
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: Delete an author by ID.
+      parameters:
+      - name: authorId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /authors/:
+    post:
+      summary: Create a new author
+      requestBody:
+        description: Author data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /publishers/{publisherId}/books:
+    get:
+      summary: Returns all books from publisher.
+      parameters:
+      - name: publisherId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+  /publishers/{publisherId}:
+    get:
+      summary: Returns a publisher by ID.
+      parameters:
+      - name: publisherId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publisher'
+    put:
+      summary: Update publisher information
+      parameters:
+      - name: publisherId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: publisher data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Publisher'
+        required: true
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: Delete a publisher by ID.
+      parameters:
+      - name: publisherId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /publishers/:
+    post:
+      summary: Create a new publisher
+      requestBody:
+        description: Publisher data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Publisher'
+        required: true
+      responses:
+        "200":
+          description: OK
 components:
   schemas:
+    Publisher:
+      type: object
+      properties:
+        publisherId:
+          type: string
+        name:
+          type: string
+        country:
+          type: string
+        founded:
+          type: string
+        genere:
+          type: string
+      example:
+        publisherId: publisher01
+        name: Alessia
+        country: Italia
+        founded: "2020"
+        genere: F
     Book:
       type: object
       properties:
@@ -88,16 +307,55 @@ components:
           type: string
         pages:
           type: string
-        author:
-          type: string
-        publisher:
-          type: string
+        publisherArray:
+          type: array
+          items:
+            $ref: '#/components/schemas/Publisher'
       example:
         copyright: "2015"
         pages: "1054"
-        author: Silbertzhz
         edition: 4th
-        publisher: Mc Graw Hill
         language: ENGLISH
         title: Database System
         bookId: book01
+        publisherArray:
+        - publisherId: publisher01
+          name: Fabioni
+          country: "1054"
+          founded: Si
+          genere: M
+    Author:
+      type: object
+      properties:
+        authorId:
+          type: string
+        name:
+          type: string
+        nationality:
+          type: string
+        birth:
+          type: string
+        genere:
+          type: string
+        bookArray:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+      example:
+        name: Allen
+        nationality: Costarricense
+        birth: "2020-08-28"
+        genere: M
+        bookArray:
+        - copyright: "2015"
+          pages: "1054"
+          edition: 4th
+          language: ENGLISH
+          title: Database System
+          bookId: book01
+          publisherArray:
+          - publisherId: publisher01
+            name: FASEBA
+            country: "Italia"
+            founded: "1990"
+            genere: M

@@ -22,7 +22,5 @@ type Book struct {
 
 	Pages string `json:"pages,omitempty"`
 
-	Author string `json:"author,omitempty"`
-
-	Publisher string `json:"publisher,omitempty"`
+	PublisherArray []Publisher `json:"publisherArray,omitempty"`
 }
