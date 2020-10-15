@@ -1,0 +1,25 @@
+Id,batterName,attackerKing,defenderking,attackerHouse,participateHouse,battleType,year,location,region
+4,Battle of the Green Fork,Robb Stark,Joffrey/Tommen Baratheon,Stark,Night's Watch,pitched battle,298,Castle Black,The Riverlands
+5,Battle of the Whispering Wood,Robb Stark,Joffrey/Tommen Baratheon,Stark,House Arryn,ambush,298,Whispering Wood,The Riverlands
+6,Battle of the Camps,Robb Stark,Joffrey/Tommen Baratheon,Stark,House Wildling,ambush,298,Riverrun,The Riverlands
+8,Battle of Moat Cailin,Balon/Euron Greyjoy,Robb Stark,Greyjoy,Stark,pitched battle,299,Winterfell,The North
+9,Battle of Deepwood Motte,Balon/Euron Greyjoy,Robb Stark,Greyjoy,Stark,siege,299,Winterfell,The North
+10,Battle of the Stony Shore,Balon/Euron Greyjoy,Robb Stark,Greyjoy,Stark,ambush,299,Winterfell,The North
+11,Battle of Torrhen's Square,Robb Stark,Balon/Euron Greyjoy,Stark,House Martell,pitched battle,299,Torrhens Square,The North
+12,Battle of Winterfell,Balon/Euron Greyjoy,Robb Stark,Greyjoy,Stark,ambush,299,Winterfell,The North
+13,Sack of Torrhen's Square,Balon/Euron Greyjoy,Balon/Euron Greyjoy,Greyjoy,Stark,siege,299,Winterfell,The North
+14,Sack of Winterfell,Joffrey/Tommen Baratheon,Robb Stark,Bolton,Stark,ambush,299,Winterfell,The North
+15,Battle of Oxcross,Robb Stark,Joffrey/Tommen Baratheon,Stark,House Lannister,ambush,299,King's Landing,The Westerlands
+16,Siege of Storm's End,Stannis Baratheon,Renly Baratheon,Baratheon,House Baratheon,siege,299,Storm's End,The Stormlands
+17,Battle of the Fords,Joffrey/Tommen Baratheon,Robb Stark,Lannister,House Tully,pitched battle,299,Red Fork,The Riverlands
+18,Sack of Harrenhal,Robb Stark,Joffrey/Tommen Baratheon,Stark,House Lannister,ambush,299,King's Landing,The Riverlands
+19,Battle of the Crag,Robb Stark,Joffrey/Tommen Baratheon,Stark,House Lannister,ambush,299,King's Landing,The Westerlands
+20,Battle of the Blackwater,Stannis Baratheon,Joffrey/Tommen Baratheon,Baratheon,House Lannister,pitched battle,299,King's Landing,The Crownlands
+21,Siege of Darry,Robb Stark,Joffrey/Tommen Baratheon,Darry,House Lannister,siege,299,King's Landing,The Riverlands
+22,Battle of Duskendale,Robb Stark,Joffrey/Tommen Baratheon,Stark,House Lannister,pitched battle,299,King's Landing,The Crownlands
+24,Battle of the Ruby Ford,Joffrey/Tommen Baratheon,Robb Stark,Lannister,Stark,pitched battle,299,Winterfell,The Riverlands
+26,The Red Wedding,Joffrey/Tommen Baratheon,Robb Stark,Frey,Stark,ambush,299,Winterfell,The Riverlands
+29,Fall of Moat Cailin,Joffrey/Tommen Baratheon,Balon/Euron Greyjoy,Bolton,House Greyjoy,siege,300,Moat Cailin,The North
+30,Sack of Saltpans,,,Brave Companions,House Wildling,razing,300,Riverrun,The Riverlands
+31,Retaking of Deepwood Motte,Stannis Baratheon,Balon/Euron Greyjoy,Baratheon,House Targaryen,pitched battle,300,Deepwood Motte,The North
+32,Battle of the Shield Islands,Balon/Euron Greyjoy,Joffrey/Tommen Baratheon,Greyjoy,Tyrell,pitched battle,300,Shield Islands,The Reach

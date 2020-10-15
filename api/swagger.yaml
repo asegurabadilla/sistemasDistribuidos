@@ -1,0 +1,318 @@
+openapi: 3.0.0
+info:
+  title: GoT API
+  version: 0.1.9
+servers:
+- url: http://webservice_booksapps.netlify.org
+  description: web service published on netlify
+paths:
+  /battle/{battleId}:
+    get:
+      summary: Returns a battle by ID.
+      parameters:
+      - name: battleId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Battle'
+    put:
+      summary: Update battle information
+      parameters:
+      - name: battleId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Battle'
+        required: true
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: Delete a battle by ID.
+      parameters:
+      - name: battleId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /battle/:
+    post:
+      summary: Create a new book
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Battle'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /house/{houseId}:
+    get:
+      summary: Returns a house by ID.
+      parameters:
+      - name: houseId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/House'
+    put:
+      summary: Update house information
+      parameters:
+      - name: houseId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/House'
+        required: true
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: Delete a house by ID.
+      parameters:
+      - name: houseId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /house/:
+    post:
+      summary: Create a new book
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/House'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /character/{characterId}:
+    get:
+      summary: Returns a character by ID.
+      parameters:
+      - name: characterId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+    put:
+      summary: Update character information
+      parameters:
+      - name: characterId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+        required: true
+      responses:
+        "200":
+          description: OK
+    delete:
+      summary: Delete a character by ID.
+      parameters:
+      - name: characterId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /character/:
+    post:
+      summary: Create a new book
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Character'
+        required: true
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Battle:
+      type: object
+      properties:
+        battleId:
+          type: string
+        battleName:
+          type: string
+        attackerKing:
+          type: string
+        defenderking:
+          type: string
+        attackerHouse:
+          type: string
+        participateHouse:
+          type: string
+        battleType:
+          type: string
+        year:
+          type: string
+        location:
+          type: string
+        region:
+          type: string
+      example:
+        battleId: battle12
+        battleName: Battle of Winterfell
+        attackerKing: Balon/Euron Greyjoy
+        defenderking: Robb Stark
+        attackerHouse: Greyjoy
+        defenderHouse: Stark
+        battleType: ambush
+        year: 299
+        location: Winterfell
+        region: The North
+    Character:
+      type: object
+      properties:
+        characterId:
+          type: string
+        name:
+          type: string
+        title:
+          type: string
+        male:
+          type: string
+        culture:
+          type: string
+        mother:
+          type: string
+        father:
+          type: string
+        house:
+          type: string
+        age:
+          type: string
+      example:
+        characterId: character1651
+        name: Daenerys Targaryen
+        title: Andals
+        male: 0
+        culture: Valyrian
+        house: House Targaryen
+        age: 21
+    House:
+      type: object
+      properties:
+        houseId:
+          type: string
+        characterName:
+          type: string
+        houseName:
+          type: string
+        deathYear:
+          type: string
+        bookOfDeath:
+          type: string
+        gender:
+          type: string
+        nobility:
+          type: string
+        location:
+          type: string
+        battle:
+          type: array
+          items:
+            $ref: '#/components/schemas/Battle'
+        character:
+          type: array
+          items:
+            $ref: '#/components/schemas/Character'
+      example:
+        houseId: house107
+        characterName: Bran Stark
+        houseName: House Stark
+        gender: 1
+        nobility: 1
+        location: Winterfell
+        battle:
+        - battleId: battle12
+          battleName: Battle of Winterfell
+          attackerKing: Balon/Euron Greyjoy
+          defenderking: Robb Stark
+          attackerHouse: Greyjoy
+          defenderHouse: Stark
+          battleType: ambush
+          year: 299
+          location: Winterfell
+          region: The North
+        character:
+        - characterId: character1651
+          name: Daenerys Targaryen
+          title: Andals
+          male: 0
+          culture: Valyrian
+          house: House Targaryen
+          age: 21
