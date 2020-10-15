@@ -11,6 +11,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	sw "github.com/asegurabadilla/sistemasDistribuidos/go"
 	data "github.com/asegurabadilla/sistemasDistribuidos/csvData"
 )
@@ -25,5 +26,6 @@ func main() {
 	log.Printf("Server started")
 	readCsvFiles()
 	router := sw.NewRouter()
-	log.Fatal(http.ListenAndServe(":", router))
+	//log.Fatal(http.ListenAndServe(":", router))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router))
 }
