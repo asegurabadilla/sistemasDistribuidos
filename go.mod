@@ -1,4 +1,4 @@
-module github.com/cursos-una/proyecto1-distribuidos-gameofthrones
+module adjustment in the module for imports
 
 go 1.12
 
