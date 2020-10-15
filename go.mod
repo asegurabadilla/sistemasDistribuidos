@@ -1,4 +1,4 @@
-module adjustment in the module for imports
+module github.com/asegurabadilla/sistemasOperativos
 
 go 1.12
 
