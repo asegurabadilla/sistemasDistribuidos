@@ -1,3 +1,22 @@
+houseId,characterName,location,houseName,deathYear,bookOfDeath,gender,nobility
+1,Addam Marbrand,King's Landing,House Lannister,,,1,1
+2,Aegon Frey (Jinglebell),No,None,299,3,1,1
+3,Aegon Targaryen,Deepwood Motte,House Targaryen,,,1,1
+4,Adrack Humble,Moat Cailin,House Greyjoy,300,5,1,1
+5,Aemon Costayne,King's Landing,House Lannister,,,1,1
+6,Aemon Estermont,Storm's End,Baratheon,,,1,1
+7,Aemon Targaryen (son of Maekar I),Castle Black,Night's Watch,300,4,1,1
+8,Aenys Frey,No,None,300,5,0,1
+9,Aeron Greyjoy,Moat Cailin,House Greyjoy,,,1,1
+10,Aethan,Castle Black,Night's Watch,,,1,0
+11,Aggar,Moat Cailin,House Greyjoy,299,2,1,0
+12,Aggo,Deepwood Motte,House Targaryen,,,1,0
+13,Alan of Rosby,Castle Black,Night's Watch,300,5,1,1
+14,Alayaya,No,None,,,0,0
+15,Albar Royce,Whispering Wood,House Arryn,,,1,1
+16,Albett,Castle Black,Night's Watch,,,1,0
+17,Alebelly,Winterfell,House Stark,299,2,1,0
+18,Alerie Hightower,Shield Islands,House Tyrell,,,0,1
 19,Alesander Staedmon,Storm's End,Baratheon,,,1,1
 20,Alester Florent,Storm's End,Baratheon,300,4,1,1
 21,Alia of Braavos,No,None,,,0,0

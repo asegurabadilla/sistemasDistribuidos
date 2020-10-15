@@ -9,14 +9,14 @@
 package swagger
 
 type Battle struct {
-    BattleId         string `json:"battleId"`
-    BattleName       string `json:"battleName"`
-    AttackerKing     string `json:"attackerKing"`
-	  Defenderking     string `json:"defenderking"`
-	  AttackerHouse    string `json:"attackerHouse"`
-	  ParticipateHouse string `json:"defenderHouse"`
-    BattleType       string `json:"battleType"`
-    Year             string `json:"year"`
-    Location         string `json:"location"`
-    Region           string `json:"region"`
+     BattleId         string `json:"battleId"`
+     BattleName       string `json:"battleName"`
+     AttackerKing     string `json:"attackerKing"`
+     Defenderking     string `json:"defenderking"`
+     AttackerHouse    string `json:"attackerHouse"`
+     ParticipateHouse string `json:"defenderHouse"`
+     BattleType       string `json:"battleType"`
+     Year             string `json:"year"`
+     Location         string `json:"location"`
+     Region           string `json:"region"`
 }

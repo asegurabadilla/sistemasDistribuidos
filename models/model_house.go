@@ -9,14 +9,14 @@
 package swagger
 
 type House struct {
-	  HouseId       string `json:"houseId,omitempty"`
-	  CharacterName string `json:"characterName,omitempty"`
-		Location      string `json:"location,omitempty"`
-	  HouseName     string `json:"houseName,omitempty"`
-	  DeathYear     string `json:"deathYear,omitempty"`
-	  BookOfDeath   string `json:"bookOfDeath,omitempty"`
-	  Gender        string `json:"gender,omitempty"`
-	  Nobility      string `json:"nobility,omitempty"`
-	  Battle        []Battle `json:"battle,omitempty"`
-	  Character     []Character `json:"character,omitempty"`
+     HouseId       string `json:"houseId,omitempty"`
+     CharacterName string `json:"characterName,omitempty"`
+     Location      string `json:"location,omitempty"`
+     HouseName     string `json:"houseName,omitempty"`
+     DeathYear     string `json:"deathYear,omitempty"`
+     BookOfDeath   string `json:"bookOfDeath,omitempty"`
+     Gender        string `json:"gender,omitempty"`
+     Nobility      string `json:"nobility,omitempty"`
+     Battle        []Battle `json:"battle,omitempty"`
+     Character     []Character `json:"character,omitempty"`
 }

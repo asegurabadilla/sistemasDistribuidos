@@ -9,13 +9,13 @@
 package swagger
 
 type Character struct {
-	  CharacterId   string `json:"characterId,omitempty"`
-	  Name          string `json:"name,omitempty"`
-	  Title         string `json:"title,omitempty"`
-    Male          string `json:"male,omitempty"`
-	  Culture       string `json:"culture,omitempty"`
-	  Mother        string `json:"mother,omitempty"`
-	  Father        string `json:"father,omitempty"`
-	  House         string `json:"house,omitempty"`
-	  Age           string `json:"age,omitempty"`
+     CharacterId   string `json:"characterId,omitempty"`
+     Name          string `json:"name,omitempty"`
+     Title         string `json:"title,omitempty"`
+     Male          string `json:"male,omitempty"`
+     Culture       string `json:"culture,omitempty"`
+     Mother        string `json:"mother,omitempty"`
+     Father        string `json:"father,omitempty"`
+     House         string `json:"house,omitempty"`
+     Age           string `json:"age,omitempty"`
 }
