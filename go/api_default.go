@@ -14,8 +14,8 @@ import (
 	"path"
 	s "strings"
 	//"fmt"
-	data "../csvData"
-	model "../models"
+	data "github.com/asegurabadilla/sistemasDistribuidos/csvData"
+	model "github.com/asegurabadilla/sistemasDistribuidos/models"
 )
 //_______________________________________________________
 func findHouse(x string) int {

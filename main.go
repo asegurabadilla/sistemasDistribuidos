@@ -11,8 +11,8 @@ package main
 import (
 	"log"
 	"net/http"
-	sw "./go"
-	data "./csvData"
+	sw "github.com/asegurabadilla/sistemasDistribuidos/go"
+	data "github.com/asegurabadilla/sistemasDistribuidos/csvData"
 )
 
 func readCsvFiles(){

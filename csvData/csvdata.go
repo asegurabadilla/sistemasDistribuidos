@@ -5,7 +5,7 @@ import (
     "log"
     "os"
     s "strings"
-    model "../models"
+    model "github.com/asegurabadilla/sistemasDistribuidos/models"
 )
 
 //________________________________________________________
