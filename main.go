@@ -26,6 +26,5 @@ func main() {
 	log.Printf("Server started")
 	readCsvFiles()
 	router := sw.NewRouter()
-	//log.Fatal(http.ListenAndServe(":", router))
 	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router))
 }
