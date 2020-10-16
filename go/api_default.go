@@ -13,9 +13,9 @@ import (
 	"encoding/json"
 	"path"
 	s "strings"
-	//"fmt"
 	data "github.com/asegurabadilla/sistemasDistribuidos/csvData"
 	model "github.com/asegurabadilla/sistemasDistribuidos/models"
+	url "github.com/gorilla/mux"
 )
 //_______________________________________________________
 func findHouse(x string) int {
@@ -202,6 +202,21 @@ func HousePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	data.Houses = append(data.Houses, house)
+	data.WriteData("csvFiles/houses.csv")
+	data.ReadData("csvFiles/houses.csv")//refresh data
+	w.WriteHeader(http.StatusOK)
+}
+
+func HouseHouseNameBattlePost(w http.ResponseWriter, r *http.Request) {
+	params := url.Vars(r)
+	houseName:=params["houseName"]
+	battleTemp:=model.Battle{}
+	json.NewDecoder(r.Body).Decode(&battleTemp)
+	for i, house := range data.Houses {
+		if houseName == house.HouseName {
+			data.Houses[i].Location = battleTemp.Location
+		}
+	}
 	data.WriteData("csvFiles/houses.csv")
 	data.ReadData("csvFiles/houses.csv")//refresh data
 	w.WriteHeader(http.StatusOK)

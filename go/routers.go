@@ -131,6 +131,13 @@ var routes = Routes{
 	},
 
 	Route{
+		"HouseHouseNameBattlePost",
+		strings.ToUpper("Post"),
+		"/house/{houseName}/battle/",
+		HouseHouseNameBattlePost,
+	},
+
+	Route{
 		"HousePost",
 		strings.ToUpper("Post"),
 		"/house/",

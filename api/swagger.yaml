@@ -134,6 +134,27 @@ paths:
       responses:
         "200":
           description: OK
+  /house/{houseName}/battle:
+    post:
+      summary: Alter house
+      parameters:
+        - name: houseName
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/House'
+        required: true
+      responses:
+        "200":
+          description: OK
   /character/{characterId}:
     get:
       summary: Returns a character by ID.
