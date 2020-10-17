@@ -155,6 +155,134 @@ paths:
       responses:
         "200":
           description: OK
+  /house/{houseName}/character:
+    post:
+      summary: Alter house
+      parameters:
+        - name: houseName
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/House'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /house/{houseName}/battle/{location}:
+    delete:
+      summary: Delete house
+      parameters:
+        - name: houseName
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: location
+            in: path
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: OK
+  /house/{houseId}/battle:
+    get:
+      summary: Returns all battles by houseId.
+      parameters:
+        - name: houseId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Battle'
+  /house/{houseId}/battle/{battleName}:
+    get:
+      summary: Returns battles of house by battle name.
+      parameters:
+        - name: houseId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: battleName
+            in: path
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Battle'
+  /house/{houseId}/character/{characterName}:
+    get:
+      summary: Returns characters of house by character name.
+      parameters:
+        - name: houseId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: characterName
+            in: path
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+  /house/{houseId}/character:
+    get:
+      summary: Returns all character by houseId.
+      parameters:
+        - name: houseId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
   /character/{characterId}:
     get:
       summary: Returns a character by ID.

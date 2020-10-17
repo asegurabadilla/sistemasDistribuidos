@@ -10,9 +10,9 @@ package swagger
 
 import (
 	"fmt"
+	"github.com/gorilla/mux"
 	"net/http"
 	"strings"
-	"github.com/gorilla/mux"
 )
 
 type Route struct {
@@ -142,5 +142,47 @@ var routes = Routes{
 		strings.ToUpper("Post"),
 		"/house/",
 		HousePost,
+	},
+
+	Route{
+		"HouseHouseIdBattleGet",
+		strings.ToUpper("Get"),
+		"/house/{houseId}/battle/",
+		HouseHouseIdBattleGet,
+	},
+
+	Route{
+		"HouseHouseIdCharacterGet",
+		strings.ToUpper("Get"),
+		"/house/{houseId}/character/",
+		HouseHouseIdCharacterGet,
+	},
+
+	Route{
+		"HouseHouseNameBattleLocationDelete",
+		strings.ToUpper("Delete"),
+		"/house/{houseName}/battle/{location}",
+		HouseHouseNameBattleLocationDelete,
+	},
+
+	Route{
+		"HouseHouseIdBattleBattleNameGet",
+		strings.ToUpper("Get"),
+		"/house/{houseId}/battle/{battleName}",
+		HouseHouseIdBattleBattleNameGet,
+	},
+
+	Route{
+		"HouseHouseIdCharacterCharacterNameGet",
+		strings.ToUpper("Get"),
+		"/house/{houseId}/character/{characterName}",
+		HouseHouseIdCharacterCharacterNameGet,
+	},
+
+	Route{
+		"HouseHouseNameCharacterPost",
+		strings.ToUpper("Post"),
+		"/house/{houseName}/character/",
+		HouseHouseNameCharacterPost,
 	},
 }

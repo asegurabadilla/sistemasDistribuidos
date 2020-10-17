@@ -9,14 +9,15 @@
 package swagger
 
 import (
-	"net/http"
 	"encoding/json"
-	"path"
-	s "strings"
 	data "github.com/asegurabadilla/sistemasDistribuidos/csvData"
 	model "github.com/asegurabadilla/sistemasDistribuidos/models"
 	url "github.com/gorilla/mux"
+	"net/http"
+	"path"
+	s "strings"
 )
+
 //_______________________________________________________
 func findHouse(x string) int {
 	x = x[5:len(x)]
@@ -39,12 +40,13 @@ func findCharacter(x string) int {
 func findBattle(x string) int {
 	x = x[6:len(x)]
 	for i, battle := range data.Battles {
-		if x ==battle.BattleId {
+		if x == battle.BattleId {
 			return i
 		}
 	}
 	return -1
 }
+
 //_______________________________________________________
 func BattleBattleIdDelete(w http.ResponseWriter, r *http.Request) {
 	id := path.Base(r.URL.Path)
@@ -52,8 +54,8 @@ func BattleBattleIdDelete(w http.ResponseWriter, r *http.Request) {
 	newBattles := append(data.Battles[:index], data.Battles[index+1:]...)
 	data.Battles = newBattles
 	data.WriteData("csvFiles/battles.csv")
-	data.ReadData("csvFiles/battles.csv")//refresh data
-	data.ReadData("csvFiles/houses.csv")//refresh data
+	data.ReadData("csvFiles/battles.csv") //refresh data
+	data.ReadData("csvFiles/houses.csv")  //refresh data
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -82,8 +84,8 @@ func BattleBattleIdPut(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	data.WriteData("csvFiles/battles.csv")
-	data.ReadData("csvFiles/battles.csv")//refresh data
-	data.ReadData("csvFiles/houses.csv")//refresh data
+	data.ReadData("csvFiles/battles.csv") //refresh data
+	data.ReadData("csvFiles/houses.csv")  //refresh data
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -107,8 +109,8 @@ func CharacterCharacterIdDelete(w http.ResponseWriter, r *http.Request) {
 	newCharacters := append(data.Characters[:index], data.Characters[index+1:]...)
 	data.Characters = newCharacters
 	data.WriteData("csvFiles/characters.csv")
-	data.ReadData("csvFiles/characters.csv")//refresh data
-	data.ReadData("csvFiles/houses.csv")//refresh data
+	data.ReadData("csvFiles/characters.csv") //refresh data
+	data.ReadData("csvFiles/houses.csv")     //refresh data
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -137,8 +139,8 @@ func CharacterCharacterIdPut(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	data.WriteData("csvFiles/characters.csv")
-	data.ReadData("csvFiles/characters.csv")//refresh data
-	data.ReadData("csvFiles/houses.csv")//refresh data
+	data.ReadData("csvFiles/characters.csv") //refresh data
+	data.ReadData("csvFiles/houses.csv")     //refresh data
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -151,7 +153,7 @@ func CharacterPost(w http.ResponseWriter, r *http.Request) {
 	}
 	data.Characters = append(data.Characters, character)
 	data.WriteData("csvFiles/characters.csv")
-	data.ReadData("csvFiles/characters.csv")//refresh data
+	data.ReadData("csvFiles/characters.csv") //refresh data
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -161,7 +163,7 @@ func HouseHouseIdDelete(w http.ResponseWriter, r *http.Request) {
 	newHouses := append(data.Houses[:index], data.Houses[index+1:]...)
 	data.Houses = newHouses
 	data.WriteData("csvFiles/houses.csv")
-	data.ReadData("csvFiles/houses.csv")//refresh data
+	data.ReadData("csvFiles/houses.csv") //refresh data
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -190,7 +192,7 @@ func HouseHouseIdPut(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	data.WriteData("csvFiles/houses.csv")
-	data.ReadData("csvFiles/houses.csv")//refresh data
+	data.ReadData("csvFiles/houses.csv") //refresh data
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -203,14 +205,14 @@ func HousePost(w http.ResponseWriter, r *http.Request) {
 	}
 	data.Houses = append(data.Houses, house)
 	data.WriteData("csvFiles/houses.csv")
-	data.ReadData("csvFiles/houses.csv")//refresh data
+	data.ReadData("csvFiles/houses.csv") //refresh data
 	w.WriteHeader(http.StatusOK)
 }
 
 func HouseHouseNameBattlePost(w http.ResponseWriter, r *http.Request) {
 	params := url.Vars(r)
-	houseName:=params["houseName"]
-	battleTemp:=model.Battle{}
+	houseName := params["houseName"]
+	battleTemp := model.Battle{}
 	json.NewDecoder(r.Body).Decode(&battleTemp)
 	for i, house := range data.Houses {
 		if houseName == house.HouseName {
@@ -218,6 +220,104 @@ func HouseHouseNameBattlePost(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	data.WriteData("csvFiles/houses.csv")
-	data.ReadData("csvFiles/houses.csv")//refresh data
+	data.ReadData("csvFiles/houses.csv") //refresh data
+	w.WriteHeader(http.StatusOK)
+}
+
+func HouseHouseIdBattleGet(w http.ResponseWriter, r *http.Request) {
+	params := url.Vars(r)
+	houseId := params["houseId"]
+	i := findHouse(houseId)
+	if i == -1 {
+		return
+	}
+	dataJson, _ := json.Marshal(data.Houses[i].Battle)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
+}
+
+func HouseHouseIdCharacterGet(w http.ResponseWriter, r *http.Request) {
+	params := url.Vars(r)
+	houseId := params["houseId"]
+	i := findHouse(houseId)
+	if i == -1 {
+		return
+	}
+	dataJson, _ := json.Marshal(data.Houses[i].Character)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
+}
+
+func HouseHouseNameBattleLocationDelete(w http.ResponseWriter, r *http.Request) {
+	params := url.Vars(r)
+	houseName := params["houseName"]
+	location := params["location"]
+	battleTemp := model.Battle{}
+	json.NewDecoder(r.Body).Decode(&battleTemp)
+	for i, house := range data.Houses {
+		if houseName == house.HouseName && location == house.Location {
+			newHouses := append(data.Houses[:i], data.Houses[i+1:]...)
+			data.Houses = newHouses
+		}
+	}
+	data.WriteData("csvFiles/houses.csv")
+	data.ReadData("csvFiles/houses.csv") //refresh data
+	w.WriteHeader(http.StatusOK)
+}
+
+func HouseHouseIdBattleBattleNameGet(w http.ResponseWriter, r *http.Request) {
+	params := url.Vars(r)
+	houseId := params["houseId"]
+	battleName := params["battleName"]
+	i := findHouse(houseId)
+	if i == -1 {
+		return
+	}
+	battleTemp := model.Battle{}
+	for _, battle := range data.Houses[i].Battle {
+		if battleName == battle.BattleName {
+			battleTemp = battle
+		}
+	}
+	dataJson, _ := json.Marshal(battleTemp)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
+}
+
+func HouseHouseIdCharacterCharacterNameGet(w http.ResponseWriter, r *http.Request) {
+	params := url.Vars(r)
+	houseId := params["houseId"]
+	characterName := params["characterName"]
+	i := findHouse(houseId)
+	if i == -1 {
+		return
+	}
+	characterTemp := model.Character{}
+	for _, character := range data.Houses[i].Character {
+		if characterName == character.Name {
+			characterTemp = character
+		}
+	}
+	dataJson, _ := json.Marshal(characterTemp)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
+}
+
+func HouseHouseNameCharacterPost(w http.ResponseWriter, r *http.Request) {
+	params := url.Vars(r)
+	houseName := params["houseName"]
+	characterTemp := model.Character{}
+	json.NewDecoder(r.Body).Decode(&characterTemp)
+	for i, house := range data.Houses {
+		if houseName == house.HouseName {
+			data.Houses[i].CharacterName = characterTemp.Name
+		}
+	}
+	data.WriteData("csvFiles/houses.csv")
+	data.ReadData("csvFiles/houses.csv") //refresh data
 	w.WriteHeader(http.StatusOK)
 }
