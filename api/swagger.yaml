@@ -70,6 +70,24 @@ paths:
       responses:
         "200":
           description: OK
+  /battle/{location}/house:
+    get:
+      summary: Returns a house by location.
+      parameters:
+        - name: location
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/House'
   /house/{houseId}:
     get:
       summary: Returns a house by ID.
@@ -334,6 +352,24 @@ paths:
       responses:
         "200":
           description: OK
+  /character/{name}/house:
+    get:
+      summary: Returns a house by character name .
+      parameters:
+        - name: name
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/House'
   /character/:
     post:
       summary: Create a new book

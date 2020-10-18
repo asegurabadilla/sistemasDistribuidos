@@ -185,4 +185,18 @@ var routes = Routes{
 		"/house/{houseName}/character/",
 		HouseHouseNameCharacterPost,
 	},
+
+	Route{
+		"BattleLocationHouseGet",
+		strings.ToUpper("Get"),
+		"/battle/{location}/house/",
+		BattleLocationHouseGet,
+	},
+
+	Route{
+		"CharacterNameHouseGet",
+		strings.ToUpper("Get"),
+		"/character/{name}/house/",
+		CharacterNameHouseGet,
+	},
 }

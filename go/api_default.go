@@ -321,3 +321,37 @@ func HouseHouseNameCharacterPost(w http.ResponseWriter, r *http.Request) {
 	data.ReadData("csvFiles/houses.csv") //refresh data
 	w.WriteHeader(http.StatusOK)
 }
+
+func BattleLocationHouseGet(w http.ResponseWriter, r *http.Request) {
+	params := url.Vars(r)
+	location := params["location"]
+	houseTemp := model.House{}
+	for _, house := range data.Houses {
+		for _, battle := range house.Battle {
+			if battle.Location == location {
+				houseTemp = house
+			}
+		}
+	}
+	dataJson, _ := json.Marshal(houseTemp)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
+}
+
+func CharacterNameHouseGet(w http.ResponseWriter, r *http.Request) {
+	params := url.Vars(r)
+	name := params["name"]
+	houseTemp := model.House{}
+	for _, house := range data.Houses {
+		for _, character := range house.Character {
+			if character.Name == name {
+				houseTemp = house
+			}
+		}
+	}
+	dataJson, _ := json.Marshal(houseTemp)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
+}
